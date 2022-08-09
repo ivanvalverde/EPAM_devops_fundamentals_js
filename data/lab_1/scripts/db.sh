@@ -44,6 +44,20 @@ do
 done <"$parentDir/users.db"
 }
 
+list() {
+local counter=0
+while IFS="" read -r line || [ -n "$line" ]
+do
+counter=$((counter+1))
+echo "$counter. $line" >> listing.txt
+done <"$parentDir/users.db"
+case "$1" in
+	--inverse) cat listing.txt | tac;;
+	*) cat listing.txt
+esac
+rm listing.txt
+}
+
 checkIfDbExists() {
 if ! [[ -f "$parentDir/users.db" ]]
 then
